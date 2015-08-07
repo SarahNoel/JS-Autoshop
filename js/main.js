@@ -1,47 +1,35 @@
-var Car = function(make, model, year, color){
+var Car = function(make, model, year, color, maxPassengers){
   this.make = make;
   this.model = model;
   this.year = year;
   this.state = "off";
   this.color = color;
+  this.maxPassengers = maxPassengers;
   this.previous_owners = [];
   this.current_owner = "manufacturer";
   this.passengers =[];
 };
 
-var debbie = new Car("Subaru", "Impreza", 2008, "red");
+var debbie = new Car("Subaru", "Impreza", 2008, "red", 4);
 
 console.log(debbie);
-
 
 Car.prototype.sale = function(buyer){
   this.previous_owners.push(this.current_owner);
   this.current_owner = buyer;
 };
 
-console.log(debbie.sale("Sarah"));
-console.log(debbie);
-
 Car.prototype.paint = function (newColor) {
   this.color = newColor;
 };
-
-console.log(debbie.paint("Blue"));
-console.log(debbie);
 
 Car.prototype.start = function () {
   this.state = "on";
 };
 
-console.log(debbie.start());
-console.log(debbie);
-
 Car.prototype.off = function () {
   this.state = "off";
 };
-
-console.log(debbie.off());
-console.log(debbie);
 
 Car.prototype.driveTo = function(destination){
   if (this.state === "off"){
@@ -50,9 +38,6 @@ Car.prototype.driveTo = function(destination){
     console.log("Driving to "+ destination);
   }
 };
-debbie.start();
-console.log(debbie.driveTo("Wonderland"));
-console.log(debbie);
 
 Car.prototype.park = function (){
   if(this.state === "off"){
@@ -63,22 +48,19 @@ Car.prototype.park = function (){
   }
 };
 
-console.log(debbie.park());
-debbie.off();
-console.log(debbie.park());
-
 Car.prototype.pickUp = function(passengers){
   if (this.state === "off"){
     return "Sorry, this car is off.";
   }else{
+    if(this.passengers.length < this.maxPassengers){
     this.passengers.push(passengers);
     console.log("Driving to pick up "+ passengers);
+      }
+    else{
+      console.log("Sorry, this car is full.");
+    }
   }
 };
-
-debbie.start();
-console.log(debbie.pickUp("Johhny"));
-console.log(debbie);
 
 Car.prototype.dropOff = function(person){
   var index = this.passengers.indexOf(person);
@@ -86,13 +68,9 @@ Car.prototype.dropOff = function(person){
     return "Sorry, this car is off.";
   }else{
     if(index > -1){
-    this.passengers.splice(this.passengers[index], 1);
+    this.passengers.splice(index, 1);
     console.log("Dropped off "+ person);
     }
   }
 };
-
-debbie.pickUp("Amber");
-console.log(debbie.dropOff("Johhny"));
-console.log(debbie);
 

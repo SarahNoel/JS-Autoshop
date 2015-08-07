@@ -80,15 +80,19 @@ debbie.start();
 console.log(debbie.pickUp("Johhny"));
 console.log(debbie);
 
-Car.prototype.dropOff = function(passengers){
+Car.prototype.dropOff = function(person){
+  var index = this.passengers.indexOf(person);
   if (this.state === "off"){
     return "Sorry, this car is off.";
   }else{
-    this.passengers.splice(passengers);
-    console.log("Dropped off "+ passengers);
+    if(index > -1){
+    this.passengers.splice(this.passengers[index], 1);
+    console.log("Dropped off "+ person);
+    }
   }
 };
 
+debbie.pickUp("Amber");
 console.log(debbie.dropOff("Johhny"));
 console.log(debbie);
 
